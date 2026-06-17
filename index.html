@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FactVerse</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+padding:20px;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+h1{
+font-size:2rem;
+}
+
+button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.search-box{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+margin:20px 0;
+font-size:16px;
+}
+
+.categories{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.category{
+background:#1e293b;
+padding:8px 15px;
+border-radius:20px;
+cursor:pointer;
+}
+
+.fact-card{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
+transition:.3s;
+}
+
+.fact-card:hover{
+transform:translateY(-3px);
+}
+
+.category-label{
+font-size:12px;
+color:#38bdf8;
+margin-bottom:8px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🌌 FactVerse</h1>
+<button onclick="toggleTheme()">🌙 Mode</button>
+</header>
+
+<input
+type="text"
+class="search-box"
+placeholder="Search facts..."
+onkeyup="searchFacts()"
+id="search"
+/>
+
+<div class="categories">
+<div class="category" onclick="filterCategory('All')">All</div>
+<div class="category" onclick="filterCategory('Animals')">Animals</div>
+<div class="category" onclick="filterCategory('Space')">Space</div>
+<div class="category" onclick="filterCategory('Human Body')">Human Body</div>
+<div class="category" onclick="filterCategory('History')">History</div>
+</div>
+
+<button onclick="randomFact()">
+🎲 Random Fact
+</button>
+
+<br><br>
+
+<div id="facts-container"></div>
+
+<script>
+
+const facts = [
+
+{
+category:"Animals",
+text:"Octopuses have three hearts."
+},
+
+{
+category:"Animals",
+text:"A giraffe's tongue can be up to 20 inches long."
+},
+
+{
+category:"Space",
+text:"One day on Venus is longer than one year on Venus."
+},
+
+{
+category:"Human Body",
+text:"Your brain uses about 20% of your body's energy."
+},
+
+{
+category:"History",
+text:"Ancient Romans used urine as a cleaning product."
+}
+
+];
+
+let dark=true;
+
+function displayFacts(list){
+
+const container =
+document.getElementById("facts-container");
+
+container.innerHTML="";
+
+list.forEach(fact=>{
+
+container.innerHTML += `
+<div class="fact-card">
+
+<div class="category-label">
+${fact.category}
+</div>
+
+${fact.text}
+
+</div>
+`;
+
+});
+}
+
+displayFacts(facts);
+
+function searchFacts(){
+
+let search =
+document.getElementById("search")
+.value
+.toLowerCase();
+
+let filtered =
+facts.filter(f=>
+f.text.toLowerCase().includes(search)
+);
+
+displayFacts(filtered);
+}
+
+function filterCategory(cat){
+
+if(cat==="All"){
+displayFacts(facts);
+return;
+}
+
+displayFacts(
+facts.filter(f=>f.category===cat)
+);
+
+}
+
+function randomFact(){
+
+let fact =
+facts[Math.floor(Math.random()*facts.length)];
+
+alert(fact.text);
+
+}
+
+function toggleTheme(){
+
+if(dark){
+
+document.body.style.background="#ffffff";
+document.body.style.color="#111";
+
+document.querySelectorAll(".fact-card")
+.forEach(card=>{
+card.style.background="#e5e7eb";
+});
+
+dark=false;
+
+}else{
+
+location.reload();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
